@@ -17,7 +17,7 @@ class GoiSpider(scrapy.Spider):
         'LOG_LEVEL': 'INFO'
     }
     
-    visited_links = set()       # all Domains crawled by spider stored in a set 'visited_links'
+    visited_links = set()  # all domains crawled by spider stored in a set 'visited_links'
     
     def parse(self, response):
 
@@ -46,11 +46,12 @@ class GoiSpider(scrapy.Spider):
         ext = tldextract.extract(domain)
         return ext.suffix == 'gov.in' or ext.suffix =='nic.in'
     
-    # Function that checks if link's domain has been visited or not
+    # Function that checks if link's domain has been visited or not 
+    # and adds unique domains to the set 'visited_links'
     def should_visit(self, link):
         parsed = urlparse(link)
         domain = parsed.netloc
-        url_add = urljoin(parsed.scheme + '://',domain)
+        url_add = urljoin(parsed.scheme + '://', domain)
         if self.is_gov_site(domain) and (url_add not in self.visited_links):            
             self.visited_links.add(url_add)
             return True
@@ -71,6 +72,6 @@ class GoiSpider(scrapy.Spider):
         with open("domains_visited.csv", "w", newline="") as file:
             writer = csv.writer(file)
             for item in self.visited_links:
-                writer.writerow([item])       
+                writer.writerow(item)       
         self.logger.info(f"Visited links saved to 'domains_visited.csv'")
         self.logger.info(f"Spider ended due to {reason}")

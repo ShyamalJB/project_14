@@ -20,11 +20,11 @@
  ```bash
     pip install scrapy
  ```
- 5. Go the spiders folder inside goi_scraper folder (Windows):
+ 5. Go to the spiders folder inside goi_scraper folder (Windows):
  ```bash
  cd .\goi_scraper\goi_scraper\spiders
  ```
- Go the spiders folder inside goi_scraper folder (macOS):
+    Go to the spiders folder inside goi_scraper folder (macOS):
  ```bash
  cd ./goi_scraper/goi_scraper/spiders
  ```

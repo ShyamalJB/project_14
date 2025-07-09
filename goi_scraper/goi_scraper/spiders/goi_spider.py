@@ -56,7 +56,7 @@ class GoiSpider(scrapy.Spider):
             return True
         else:
             return False
-
+    #Function that yields rotten links to output
     def handle_error(self, failure):
         request = failure.request
         if failure.check(HttpError):
@@ -66,6 +66,7 @@ class GoiSpider(scrapy.Spider):
         elif failure.check(DNSLookupError, TimeoutError):
             yield LinkItem(url=request.url, type='rotten')
 
+    # Function that writes 'domains_visited.csv'
     def closed(self, reason):
         with open("domains_visited.csv", "w", newline="") as file:
             writer = csv.writer(file)

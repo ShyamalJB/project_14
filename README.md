@@ -4,4 +4,5 @@
  
  version 1 (v1) : 
  - Made using scrapy
- - Listing the rotten links and non-https sites in CSV / JSON format only
+ - Listing the rotten links and non-https sites in 'links.csv' only
+ - Also listing the domains crawled by the spider in 'domains_visited.csv'

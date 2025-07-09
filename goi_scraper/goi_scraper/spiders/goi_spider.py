@@ -30,17 +30,12 @@ class GoiSpider(scrapy.Spider):
         # Check HTTPS
         parsed_url = urlparse(response.url)
         if parsed_url.scheme != 'https' and self.is_gov_in(parsed_url.netloc):
-            self.non_https_sites.add(f"{parsed_url.scheme}://{parsed_url.netloc}")
+            self.non_https_sites.add(f"{parsed_url}")
 
         for href in response.css('a::attr(href)').getall():
             link = urljoin(response.url, href)
             if self.should_visit(link):
-                yield scrapy.Request(
-                    link,
-                    callback=self.parse,
-                    errback=self.handle_error,
-                    dont_filter=True
-                )
+                yield response.follow(link ,callback=self.parse)
 
     def should_visit(self, link):
         if link in self.visited_links:

@@ -3,5 +3,5 @@
  
  
  version 1 (v1) : 
- > Made using scrapy and tldextract 
- > Listing the rotten links and non-https sites in CSV / JSON format only
+ - Made using scrapy and tldextract 
+ - Listing the rotten links and non-https sites in CSV / JSON format only

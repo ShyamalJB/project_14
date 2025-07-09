@@ -6,7 +6,7 @@ import tldextract
 from goi_scraper.items import LinkItem
 import csv
 
-
+# main spider class
 class GoiSpider(scrapy.Spider):
     name = "goi_spider"
     allowed_domains = ['gov.in', 'nic.in']
@@ -16,18 +16,18 @@ class GoiSpider(scrapy.Spider):
         'HTTPERROR_ALLOWED_CODES': [404],
         'LOG_LEVEL': 'INFO'
     }
-    visited_links = set()
-
+    
+    visited_links = set()       # all Domains crawled by spider stored in a set 'visited_links'
+    
     def parse(self, response):
-        self.log(f"Visited: {response.url}")
 
-        # Check HTTPS
+        # Check if URL is HTTPS or not
         parsed_url = urlparse(response.url)
         if parsed_url.scheme != 'https' and self.is_gov_site(parsed_url.netloc):
             https_issue = LinkItem(url=response.url, type='non_https')
             yield https_issue            
 
-        # Crawling though each link present in the website
+        # Attempting to crawl though each link present in the website
         try:
             for href in response.css('a::attr(href)').getall():
                 link = urljoin(response.url, href)
@@ -41,15 +41,17 @@ class GoiSpider(scrapy.Spider):
         except:
             print("Error while attempting to crawl !!!")
 
+    # Function that checks if domain ends in 'gov.in' or 'nic.in' 
     def is_gov_site(self, domain):
         ext = tldextract.extract(domain)
         return ext.suffix == 'gov.in' or ext.suffix =='nic.in'
     
+    # Function that checks if link's domain has been visited or not
     def should_visit(self, link):
         parsed = urlparse(link)
         domain = parsed.netloc
-        if self.is_gov_site(domain) and (domain not in self.visited_links):
-            url_add = urljoin(parsed.scheme + '://',domain)
+        url_add = urljoin(parsed.scheme + '://',domain)
+        if self.is_gov_site(domain) and (url_add not in self.visited_links):            
             self.visited_links.add(url_add)
             return True
         else:

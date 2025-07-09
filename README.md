@@ -8,11 +8,19 @@
  - Also listing the domains crawled by the spider in 'domains_visited.csv' in spiders folder
  - Starting url is an Integrated Govt Online Directory which contains links to all GoI sites (https://igod.gov.in/sectors)
  ## Instructions to run the spider
- Install scrapy by using pip: 
+ 1. Open terminal
+
+ 2. Clone the repository by using terminal:
+ ```bash
+ git clone https://github.com/ShyamalJB/project_14.git
+ ```
+ 3. Open project_14 folder in your terminal
+
+ 4. Install scrapy by using pip: 
  ```bash
     pip install scrapy
  ```
- Go the spiders folder inside goi_scraper folder (Windows):
+ 5. Go the spiders folder inside goi_scraper folder (Windows):
  ```bash
  cd .\goi_scraper\goi_scraper\spiders
  ```
@@ -20,7 +28,7 @@
  ```bash
  cd ./goi_scraper/goi_scraper/spiders
  ```
- Start crawling spider and outputting 'links.csv' :
+ 6. Start crawling spider and outputting 'links.csv' :
  ```bash
  scrapy crawl goi_spider -o links.csv
  ```

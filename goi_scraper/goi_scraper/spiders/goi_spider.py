@@ -4,7 +4,6 @@ from scrapy.spidermiddlewares.httperror import HttpError
 from twisted.internet.error import DNSLookupError, TimeoutError
 import tldextract
 from goi_scraper.items import LinkItem
-import csv
 
 # main spider class
 class GoiSpider(scrapy.Spider):
@@ -69,9 +68,8 @@ class GoiSpider(scrapy.Spider):
 
     # Function that writes 'domains_visited.csv'
     def closed(self, reason):
-        with open("domains_visited.csv", "w", newline="") as file:
-            writer = csv.writer(file)
+        with open("domains_visited.csv", "w") as file:
             for item in self.visited_links:
-                writer.writerow(item)       
+                file.write(item + "\n")      
         self.logger.info(f"Visited links saved to 'domains_visited.csv'")
         self.logger.info(f"Spider ended due to {reason}")

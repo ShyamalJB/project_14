@@ -35,7 +35,12 @@ class GoiSpider(scrapy.Spider):
         for href in response.css('a::attr(href)').getall():
             link = urljoin(response.url, href)
             if self.should_visit(link):
-                yield response.follow(link ,callback=self.parse)
+                yield scrapy.Request(
+                    link,
+                    callback=self.parse,
+                    errback=self.handle_error,
+                    dont_filter=True
+                )
 
     def should_visit(self, link):
         if link in self.visited_links:

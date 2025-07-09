@@ -50,8 +50,8 @@ class GoiSpider(scrapy.Spider):
     def should_visit(self, link):
         parsed = urlparse(link)
         domain = parsed.netloc
-        url_add = urljoin(parsed.scheme + '://', domain)
-        if self.is_gov_site(domain) and (url_add not in self.visited_links):            
+        if self.is_gov_site(domain) and (domain not in self.visited_links):  
+            url_add = urljoin(parsed.scheme + '://', domain)          
             self.visited_links.add(url_add)
             return True
         else:

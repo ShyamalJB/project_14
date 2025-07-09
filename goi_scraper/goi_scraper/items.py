@@ -6,7 +6,6 @@
 import scrapy
 
 
-class GoiScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class LinkItem (scrapy.Item):
+    url = scrapy.Field()
+    type = scrapy.Field()

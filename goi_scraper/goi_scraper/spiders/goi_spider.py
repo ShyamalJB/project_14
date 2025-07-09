@@ -66,7 +66,7 @@ class GoiSpider(scrapy.Spider):
         elif failure.check(DNSLookupError, TimeoutError):
             yield LinkItem(url=request.url, type='rotten')
 
-    # Function that writes 'domains_visited.csv'
+    # Destructor-type function that writes 'domains_visited.csv'
     def closed(self, reason):
         with open("domains_visited.csv", "w") as file:
             for item in self.visited_links:

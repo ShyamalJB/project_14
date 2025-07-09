@@ -24,7 +24,7 @@
  ```bash
  cd .\goi_scraper\goi_scraper\spiders
  ```
-    Go to the spiders folder inside goi_scraper folder (macOS):
+ Go to the spiders folder inside goi_scraper folder (macOS):
  ```bash
  cd ./goi_scraper/goi_scraper/spiders
  ```

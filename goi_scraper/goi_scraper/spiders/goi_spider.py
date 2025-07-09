@@ -27,28 +27,32 @@ class GoiSpider(scrapy.Spider):
             yield https_issue            
 
         # Crawling though each link present in the website
-        for href in response.css('a::attr(href)').getall():
-            link = urljoin(response.url, href)
-            if self.should_visit(link):
-                yield scrapy.Request(
-                    link,
-                    callback=self.parse,
-                    errback=self.handle_error,
-                    dont_filter=True
-                )
+        try:
+            for href in response.css('a::attr(href)').getall():
+                link = urljoin(response.url, href)
+                if self.should_visit(link):
+                    yield response.follow(
+                        link,
+                        callback=self.parse,
+                        errback=self.handle_error,
+                        dont_filter=True
+                    )
+        except:
+            print("Error while attempting to crawl !!!")
+
     def is_gov_site(self, domain):
         ext = tldextract.extract(domain)
         return ext.suffix == 'gov.in' or ext.suffix =='nic.in'
     
     def should_visit(self, link):
-        if link in self.visited_links:
-            return False
         parsed = urlparse(link)
         domain = parsed.netloc
-        if self.is_gov_in(domain):
-            self.visited_links.add(link)
+        if self.is_gov_site(domain) and (domain not in self.visited_links):
+            url_add = urljoin(parsed.scheme + '://',domain)
+            self.visited_links.add(url_add)
             return True
-        return False
+        else:
+            return False
 
     def handle_error(self, failure):
         request = failure.request
@@ -58,3 +62,11 @@ class GoiSpider(scrapy.Spider):
                 yield LinkItem(url=response.url, type='rotten')
         elif failure.check(DNSLookupError, TimeoutError):
             yield LinkItem(url=request.url, type='rotten')
+
+    def closed(self, reason):
+        with open("domains_visited.csv", "w") as file:
+            for item in self.visited_links:
+                file.write(item + "\n")
+        
+        self.logger.info(f"Visited links saved to 'domains_visited.csv'")
+        self.logger.info(f"Spider ended due to {reason}")

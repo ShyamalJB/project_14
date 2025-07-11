@@ -70,7 +70,7 @@ class GoiSpider(scrapy.Spider):
     # Destructor-type function that writes 'domains_visited.csv'
     def closed(self, reason):
         with open("domains_visited.csv", "w") as file:
-            file.write('following domains are visited\n')
+            file.write('following domains are visited,\n')
             for item in self.visited_links:
                 file.write(item + "\n")      
         self.logger.info(f"Visited links saved to 'domains_visited.csv'")

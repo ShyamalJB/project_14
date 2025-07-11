@@ -9,7 +9,7 @@ from goi_scraper.items import LinkItem
 class GoiSpider(scrapy.Spider):
     name = "goi_spider"
     allowed_domains = ['gov.in', 'nic.in']
-    start_urls = ['https://igod.gov.in/sectors']
+    start_urls = ['https://igod.gov.in/categories','https://igod.gov.in/sectors']
 
     custom_settings = {
         'HTTPERROR_ALLOWED_CODES': [404],
@@ -31,7 +31,7 @@ class GoiSpider(scrapy.Spider):
             for href in response.css('a::attr(href)').getall():
                 link = urljoin(response.url, href)
                 if self.should_visit(link):
-                    yield response.follow(
+                    yield scrapy.Request(
                         link,
                         callback=self.parse,
                         errback=self.handle_error,

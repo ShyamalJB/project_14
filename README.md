@@ -32,4 +32,4 @@
  ```bash
  scrapy crawl goi_spider -o links.csv
  ```
- 
+ Press CTRL + C once to close the spider gracefully (twice to force close which will not give CSV files properly)

@@ -16,7 +16,9 @@ class GoiSpider(scrapy.Spider):
         'LOG_LEVEL': 'INFO'
     }
     
-    visited_links = set()  # all domains crawled by spider stored in a set 'visited_links'
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.visited_links = set()  # all domains crawled by spider stored in a set 'visited_links'
     
     def parse(self, response):
 
@@ -51,8 +53,7 @@ class GoiSpider(scrapy.Spider):
         parsed = urlparse(link)
         domain = parsed.netloc
         if self.is_gov_site(domain) and (domain not in self.visited_links):  
-            url_add = urljoin(parsed.scheme + '://', domain)          
-            self.visited_links.add(url_add)
+            self.visited_links.add(domain)
             return True
         else:
             return False

@@ -33,4 +33,3 @@
  scrapy crawl goi_spider -o links.csv
  ```
  
- P.S. I didn't get any rotten or non-https link 
